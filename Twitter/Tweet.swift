@@ -15,9 +15,9 @@ class Tweet: NSObject {
     var createdAt: NSDate?
     var id: Int?
     var favorited: Bool?
+    var retweetId: Int?
     var retweetCount: Int?
     var favCount: Int?
-    
     
     init(dictionary: NSDictionary) {
         user = User(dictionary: dictionary["user"] as! NSDictionary)

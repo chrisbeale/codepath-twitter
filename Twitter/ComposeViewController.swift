@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol ComposeViewControllerDelegate : class
+{
+    func composeViewController(viewController: ComposeViewController, tweetSent tweet: Tweet)
+}
+
 class ComposeViewController: UIViewController, UITextViewDelegate{
 
     var tweet: Tweet?
@@ -17,6 +22,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate{
     @IBOutlet weak var tweetText: UITextView!
     @IBOutlet weak var characterLabel: UILabel!
     
+    weak var delegate: ComposeViewControllerDelegate?
     
     let maxCharacters = 140
     
@@ -57,11 +63,15 @@ class ComposeViewController: UIViewController, UITextViewDelegate{
 
         if let tweet = tweet {
             TwitterClient.sharedInstance.reply(tweet, status: tweetText.text, completion: { (tweet, error) -> () in
-                
+                if let tweet = tweet {
+                    self.delegate?.composeViewController(self, tweetSent: tweet)
+                }
             })
         } else {
             TwitterClient.sharedInstance.tweet(tweetText.text, completion: { (tweet, error) -> () in
-                
+                if let tweet = tweet {
+                    self.delegate?.composeViewController(self, tweetSent: tweet)
+                }
             })
         }
         tweetText.resignFirstResponder()

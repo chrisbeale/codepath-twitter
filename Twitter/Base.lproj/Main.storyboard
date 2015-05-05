@@ -53,7 +53,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="576"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="86" id="Qmu-jz-EIY" customClass="TweetCell" customModule="Twitter" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="86" id="Qmu-jz-EIY" customClass="TweetCell" customModule="Twitter" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qmu-jz-EIY" id="5Ii-7C-LfJ">
@@ -72,19 +72,19 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@someone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPv-nw-i3C">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@someone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yPv-nw-i3C">
                                                     <rect key="frame" x="210" y="9" width="47" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="4h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gu-Dn-kHc">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" misplaced="YES" text="4h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gu-Dn-kHc">
                                                     <rect key="frame" x="265" y="9" width="14" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Something someone tweeted about a thing that one time.  It was a pretty long tweet but we should fit it." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcZ-WT-Mhh">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="Something someone tweeted about a thing that one time.  It was a pretty long tweet but we should fit it." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcZ-WT-Mhh">
                                                     <rect key="frame" x="66" y="28" width="213" height="43"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -230,6 +230,7 @@
                                 <state key="normal" image="retweet">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" image="retweet_on"/>
                                 <state key="highlighted" image="retweet_hover"/>
                                 <connections>
                                     <action selector="onRetweet:" destination="wZQ-QA-O2K" eventType="touchUpInside" id="WpJ-f7-Icm"/>
@@ -327,6 +328,8 @@
                         <outlet property="favoriteControl" destination="dxp-nQ-s2T" id="iY8-nx-QcI"/>
                         <outlet property="friendlyNameLabel" destination="gOq-ej-aun" id="yj7-va-b5R"/>
                         <outlet property="profileImageView" destination="MCV-pC-jSS" id="eRr-O2-Ude"/>
+                        <outlet property="replyControl" destination="zHk-qF-x5t" id="ssG-aC-F7Q"/>
+                        <outlet property="retweetControl" destination="Dgg-Bn-eD5" id="Gqb-Z0-Dz2"/>
                         <outlet property="retweetCountLabel" destination="5Pj-x2-cch" id="MI5-xm-aeV"/>
                         <outlet property="tweetText" destination="0A7-ar-Gb3" id="xWe-gk-BYD"/>
                         <outlet property="twitterNameLabel" destination="YJL-sH-a8A" id="Ub6-rE-FcJ"/>
@@ -488,6 +491,7 @@
         <image name="reply_hover" width="16" height="16"/>
         <image name="retweet" width="19" height="16"/>
         <image name="retweet_hover" width="19" height="16"/>
+        <image name="retweet_on" width="19" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -495,6 +499,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="TMD-0i-JIc"/>
+        <segue reference="lrm-NZ-5Ao"/>
     </inferredMetricsTieBreakers>
 </document>

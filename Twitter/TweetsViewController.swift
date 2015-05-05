@@ -8,10 +8,10 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetViewControllerDelegate {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
+    TweetViewControllerDelegate, ComposeViewControllerDelegate {
     
     var tweets: [Tweet]?
-    var activeTweetIndex = -1
     @IBOutlet weak var tableView: UITableView!
     
     lazy var refreshControl: UIRefreshControl = {
@@ -34,10 +34,13 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
         // Do any additional setup after loading the view.
+        refreshFeed()
+    }
+    
+    private func refreshFeed() {
         TwitterClient.sharedInstance.homeTimelineWithParams(nil, completion: { (tweets, error) -> () in
             self.tweets = tweets
             self.tableView.reloadData()
-            
         })
     }
     
@@ -76,14 +79,14 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         User.currentUser?.logout()
     }
     
-    
     func tweetViewController(vc: TweetViewController, tweetChanged tweet: Tweet) {
-        if activeTweetIndex != -1 {
-            tweets?[activeTweetIndex] = tweet
-            activeTweetIndex = -1
-            tableView.reloadData()
-        }
+        refreshFeed()
     }
+    
+    func composeViewController(viewController: ComposeViewController, tweetSent tweet: Tweet) {
+       refreshFeed()
+    }
+    
     
     // MARK: - Navigation
 
@@ -94,11 +97,11 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if let vc = segue.destinationViewController as? TweetViewController {
             var indexPath = tableView.indexPathForCell(sender as! TweetCell)!
-            activeTweetIndex = indexPath.row
             vc.tweet = tweets?[indexPath.row]
             vc.delegate = self
         } else if let nav = segue.destinationViewController as? UINavigationController {
             var vc = nav.topViewController as! ComposeViewController
+            vc.delegate = self
         }
         
     }

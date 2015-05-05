@@ -78,13 +78,29 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     }
     
     func retweet(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> ()) {
-        POST("/1.1/statuses/retweet/\(tweet.id).json", parameters: ["id": tweet.id!], success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-            var tweet = Tweet(dictionary: response as! NSDictionary)
+        POST("/1.1/statuses/retweet/\(tweet.id!).json", parameters: ["id": tweet.id!], success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            var retweet = response as! NSDictionary
+            var tweet = Tweet(dictionary: retweet["retweeted_status"] as! NSDictionary)
+            tweet.retweetId = response["id"] as? Int
+            
             completion(tweet: tweet, error: nil)
             }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
                 println("Error with operation \(operation)")
                 completion(tweet: nil, error: error)
         })
+    }
+    
+    func unRetweet(tweet: Tweet, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        if let id = tweet.retweetId {
+            POST("/1.1/statuses/destroy/\(tweet.retweetId!).json", parameters: ["id": tweet.id!], success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+                var retweet = response as! NSDictionary
+                var tweet = Tweet(dictionary: retweet["retweeted_status"] as! NSDictionary)
+                completion(tweet: tweet, error: nil)
+                }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                    println("Error with operation \(operation)")
+                    completion(tweet: nil, error: error)
+            })
+        }
     }
     
     func reply(tweet: Tweet, status: String, completion: (tweet: Tweet?, error: NSError?) -> ()) {

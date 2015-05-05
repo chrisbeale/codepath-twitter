@@ -9,11 +9,11 @@
 import UIKit
 
 protocol TweetViewControllerDelegate :  class {
-   func tweetViewController(vc: TweetViewController, tweetChanged tweet: Tweet)
+    func tweetViewController(vc: TweetViewController, tweetChanged tweet: Tweet)
 }
 
 
-class TweetViewController: UIViewController {
+class TweetViewController: UIViewController, ComposeViewControllerDelegate {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var friendlyNameLabel: UILabel!
@@ -45,10 +45,31 @@ class TweetViewController: UIViewController {
     }
 
     @IBAction func onRetweet(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweet(tweet!) {
-            (tweet, error) -> () in
-            if let tweet = tweet {
-                self.tweet = tweet
+        retweetControl.selected = !retweetControl.selected
+        
+        if retweetControl.selected {
+            TwitterClient.sharedInstance.retweet(tweet!) {
+                (tweet, error) -> () in
+                if let tweet = tweet {
+                    self.tweet = tweet
+                    self.delegate?.tweetViewController(self, tweetChanged: self.tweet!)
+                } else {
+                    self.retweetControl.selected = !self.retweetControl.selected
+                }
+            } 
+        } else {
+            if let id = tweet?.retweetId {
+                TwitterClient.sharedInstance.unRetweet(tweet!) {
+                    (tweet, error) -> () in
+                    if let tweet = tweet {
+                        self.tweet = tweet
+                        self.delegate?.tweetViewController(self, tweetChanged: self.tweet!)
+                    } else {
+                        self.retweetControl.selected = !self.retweetControl.selected
+                    }
+                }
+            } else {
+                retweetControl.selected = !self.retweetControl.selected
             }
         }
     }
@@ -64,6 +85,8 @@ class TweetViewController: UIViewController {
                     if let tweet = tweet {
                         self.tweet = tweet
                         self.delegate?.tweetViewController(self, tweetChanged: tweet)
+                    } else {
+                        self.favoriteControl.selected = !self.favoriteControl.selected
                     }
                 }
             } else {
@@ -72,6 +95,8 @@ class TweetViewController: UIViewController {
                     if let tweet = tweet {
                         self.tweet = tweet
                         self.delegate?.tweetViewController(self, tweetChanged: tweet)
+                    } else {
+                        self.favoriteControl.selected = !self.favoriteControl.selected
                     }
                 }
             }
@@ -98,6 +123,10 @@ class TweetViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func composeViewController(viewController: ComposeViewController, tweetSent tweet: Tweet) {
+        delegate?.tweetViewController(self, tweetChanged: tweet)
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -106,6 +135,7 @@ class TweetViewController: UIViewController {
         // Pass the selected object to the new view controller.
         var nav = segue.destinationViewController as! UINavigationController
         var vc = nav.topViewController as! ComposeViewController
+        vc.delegate = self;
         //vc.tweet = tweet
     }
     
